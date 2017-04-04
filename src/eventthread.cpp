@@ -123,6 +123,7 @@ void EventThread::process(RGSSThreadData &rtData)
 #endif
 
 	fullscreen = rtData.config.fullscreen;
+	int toggleFSMod = rtData.config.anyAltToggleFS ? KMOD_ALT : KMOD_LALT;
 
 	fps.lastFrame = SDL_GetPerformanceCounter();
 	fps.displayCounter = 0;
@@ -141,21 +142,9 @@ void EventThread::process(RGSSThreadData &rtData)
 
 	bool terminate = false;
 
-	std::map<int, SDL_GameController*> controllers;
-	std::map<int, SDL_Joystick*> joysticks;
-
-	for (int i = 0; i < SDL_NumJoysticks(); ++i) {
-		if (SDL_IsGameController(i)) {
-			//Load as game controller
-			SDL_GameController *gc = SDL_GameControllerOpen(i);
-			int id = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(gc));
-			controllers[id] = gc;
-		} else {
-			//Fall back to joystick
-			SDL_Joystick *js = SDL_JoystickOpen(i);
-			joysticks[SDL_JoystickInstanceID(js)] = js;
-		}
-	}
+	SDL_Joystick *js = 0;
+	if (SDL_NumJoysticks() > 0)
+		js = SDL_JoystickOpen(0);
 
 	char buffer[128];
 

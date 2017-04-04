@@ -40,7 +40,11 @@
 
 #include "binding.h"
 
+#ifdef __WINDOWS__
+#include "resource.h"
+#elif __LINUX__
 #include "icon.png.xxd"
+#endif
 
 #ifdef STEAM
 #include "steamshim/steamshim_child.h"
@@ -158,32 +162,52 @@ int rgssThreadFun(void *userdata)
 	return 0;
 }
 
+static void printRgssVersion(int ver)
+{
+	const char *const makers[] =
+		{ "", "XP", "VX", "VX Ace" };
+
+	char buf[128];
+	snprintf(buf, sizeof(buf), "RGSS version %d (%s)", ver, makers[ver]);
+
+	Debug() << buf;
+}
+
 static void showInitError(const std::string &msg)
 {
 	Debug() << msg;
-	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "OneShot", msg.c_str(), 0);
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "mkxp", msg.c_str(), 0);
+}
+
+static void setupWindowIcon(const Config &conf, SDL_Window *win)
+{
+	SDL_RWops *iconSrc;
+
+	if (conf.iconPath.empty())
+		iconSrc = SDL_RWFromConstMem(assets_icon_png, assets_icon_png_len);
+	else
+		iconSrc = SDL_RWFromFile(conf.iconPath.c_str(), "rb");
+
+	SDL_Surface *iconImg = IMG_Load_RW(iconSrc, SDL_TRUE);
+
+	if (iconImg)
+	{
+		SDL_SetWindowIcon(win, iconImg);
+		SDL_FreeSurface(iconImg);
+	}
 }
 
 int main(int argc, char *argv[])
 {
 	SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 	SDL_SetHint(SDL_HINT_ACCELEROMETER_AS_JOYSTICK, "0");
-	SDL_SetHint(SDL_HINT_VIDEO_HIGHDPI_DISABLED, "1");
 
 	/* initialize SDL first */
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
 	{
 		showInitError(std::string("Error initializing SDL: ") + SDL_GetError());
 		return 0;
 	}
-
-#ifdef STEAM
-	if (!STEAMSHIM_init())
-	{
-		showInitError("Could not initialize Steamworks API");
-		return 0;
-	}
-#endif
 
 	if (!EventThread::allocUserEvents())
 	{
@@ -245,16 +269,6 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-	/* Setup application icon */
-	SDL_RWops *iconSrc;
-
-	if (conf.iconPath.empty())
-		iconSrc = SDL_RWFromConstMem(assets_icon_png, assets_icon_png_len);
-	else
-		iconSrc = SDL_RWFromFile(conf.iconPath.c_str(), "rb");
-
-	SDL_Surface *iconImg = IMG_Load_RW(iconSrc, SDL_TRUE);
-
 	SDL_Window *win;
 	Uint32 winFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_INPUT_FOCUS;
 
@@ -271,11 +285,13 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-	if (iconImg)
-	{
-		SDL_SetWindowIcon(win, iconImg);
-		SDL_FreeSurface(iconImg);
-	}
+	/* OSX and Windows have their own native ways of
+	 * dealing with icons; don't interfere with them */
+#ifdef __LINUX__
+	setupWindowIcon(conf, win);
+#else
+	(void) setupWindowIcon;
+#endif
 
 	ALCdevice *alcDev = alcOpenDevice(0);
 

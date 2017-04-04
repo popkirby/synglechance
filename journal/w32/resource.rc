@@ -1,5 +1,7 @@
-#include <winuser.h>
-MAINICON ICON "icon.ico"
+#include <windows.h>
+#define IDI_APPICON 101
+
+IDI_APPICON ICON "icon.ico"
 
 NIKO1 BITMAP "niko1.bmp"
 NIKO2 BITMAP "niko2.bmp"
@@ -35,3 +37,4 @@ s3 BITMAP "s3.bmp"
 s4 BITMAP "s4.bmp"
 save BITMAP "save.bmp"
 final BITMAP "final.bmp"
+

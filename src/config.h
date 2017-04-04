@@ -24,6 +24,7 @@
 
 #include <string>
 #include <vector>
+#include <set>
 
 struct Config
 {
@@ -50,17 +51,35 @@ struct Config
 	bool subImageFix;
 
 	std::string gameFolder;
+	bool anyAltToggleFS;
+	bool enableReset;
 	bool allowSymlinks;
 	bool pathCache;
 
+	std::string dataPathOrg;
+	std::string dataPathApp;
+
 	std::string iconPath;
+	std::string execName;
+	std::string titleLanguage;
+
+	struct
+	{
+		std::string soundFont;
+		bool chorus;
+		bool reverb;
+	} midi;
 
 	struct
 	{
 		int sourceCount;
 	} SE;
 
-	std::vector<std::string> preloadScripts;
+	bool useScriptNames;
+
+	std::string customScript;
+	std::set<std::string> preloadScripts;
+	std::vector<std::string> rtps;
 
 	std::vector<std::string> fontSubs;
 
