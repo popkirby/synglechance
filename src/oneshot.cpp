@@ -978,6 +978,7 @@ std::string Oneshot::textinput(const char* prompt, int char_limit, const char* f
 	}
 
 	//Disable text input
+	threadData.acceptingTextInput.clear();
 	SDL_StopTextInput();
 
 	delete promptBmp;
