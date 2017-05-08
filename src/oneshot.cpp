@@ -15,6 +15,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
+#include <string>
+
 //OS-Specific code
 #if defined _WIN32
 	#define OS_W32
@@ -874,6 +876,7 @@ bool Oneshot::msgbox(int type, const char *body, const char *title)
 	data.colorScheme = 0;
 	data.title = title;
 	data.message = body;
+	while (data.message.find("\n") != string::npos) data.message.replace(data.find("\n"), 1, " ");
 #ifdef OS_W32
 	DWORD sound;
 #endif
