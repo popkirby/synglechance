@@ -22,6 +22,9 @@ __pycache__
 
 object_script.*
 rpgscript.bat
+rpgscript - mklang.bat
+oneshot_JA_2_merge.pot
+oneshot_JA_2_merge-jpn.pot
 xScripts.rxdata
 
 .qmake.stash
