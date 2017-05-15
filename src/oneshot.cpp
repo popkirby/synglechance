@@ -875,8 +875,9 @@ bool Oneshot::msgbox(int type, const char *body, const char *title)
 	data.window = NULL;//p->window;
 	data.colorScheme = 0;
 	data.title = title;
-	data.message = body;
-	while (data.message.find("\n") != string::npos) data.message.replace(data.find("\n"), 1, " ");
+	std::string body_string = std::string(body);
+	while (body_string.find("\n") != std::string::npos) body_string.replace(body_string.find("\n"), 1, " ");
+	data.message = body_string.c_str();
 #ifdef OS_W32
 	DWORD sound;
 #endif
