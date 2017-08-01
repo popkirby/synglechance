@@ -2,7 +2,7 @@
 set -e
 
 # User-configurable variables
-mac_version="0.3.3"
+mac_version="0.3.4"
 steam_game_dir=~/Library/Application\ Support/Steam/SteamApps/common/OneShot
 make_threads=4
 
@@ -57,4 +57,4 @@ rm -rf journal/mac/__pycache__
 rm -rf build
 rm -rf dist
 
-echo "\n${green}Complete!  ${white}Please report any issues to https://github.com/vinyldarkscratch/mkxp-oneshot/issues${color_reset}"
+echo "\n${green}Complete!  ${white}Please report any issues to https://github.com/vinyldarkscratch/synglechance/issues${color_reset}"
