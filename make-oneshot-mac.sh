@@ -25,16 +25,36 @@ pyinstaller journal/mac/journal.spec --onefile --windowed
 
 # Create app bundles
 echo "-> ${cyan}Create app bundles...${color_reset}"
-mv OneShot.app OneShot_new.app
-cp -r patches/mac/OneShot_template.app ./OneShot.app
-cp OneShot_new.app/Contents/MacOS/OneShot OneShot.app/Contents/Resources/OneShot
+
+OSX_App="synglechance.app"
+ContentsDir="$OSX_App/Contents"
+LibrariesDir="$OSX_App/Contents/Libraries"
+ResourcesDir="$OSX_App/Contents/Resources"
+
+# create directories in the @target@.app bundle
+if [ ! -e $LibrariesDir ]
+	then
+	mkdir -p "$LibrariesDir"
+fi
+
+if [ ! -e $ResourcesDir ]
+	then
+	mkdir -p "$ResourcesDir"
+fi
+
+cp patches/mac/steamshim ./synglechance.app/Contents/Resources/steamshim
+cp patches/mac/libsteam_api.dylib ./synglechance.app/Contents/Libraries/libsteam_api.dylib
+cmake -P patches/mac/CompleteBundle.cmake
+cp assets/icon.icns ./synglechance.app/Contents/Resources/icon.icns
+cp steam_appid.txt ./synglechance.app/Contents/Resources/steam_appid.txt
+cp patches/mac/oneshot.sh ./synglechance.app/Contents/MacOS/oneshot.sh
+mv synglechance.app/Contents/MacOS/synglechance synglechance.app/Contents/Resources/synglechance
 cp -r dist/_______.app _______.app
 
 # Set version number
 echo "-> ${cyan}Set version number...${color_reset}"
-rm -f OneShot.app/Contents/Info.plist
 rm -f _______.app/Contents/Info.plist
-m4 patches/mac/Info.plist.in -DONESHOTMACVERSION=$mac_version > OneShot.app/Contents/Info.plist
+m4 patches/mac/Info.plist.in -DONESHOTMACVERSION=$mac_version > synglechance.app/Contents/Info.plist
 m4 patches/mac/JournalInfo.plist.in -DONESHOTMACVERSION=$mac_version > _______.app/Contents/Info.plist
 
 # Compile scripts
@@ -46,13 +66,13 @@ echo "-> ${cyan}Install to Steam directory...${color_reset}"
 cp "${steam_game_dir}/Data/xScripts.rxdata" .
 rm -rf "${steam_game_dir}/OneShot.app"
 rm -rf "${steam_game_dir}/_______.app"
-cp -r OneShot.app "${steam_game_dir}/OneShot.app"
+cp -r synglechance.app "${steam_game_dir}/OneShot.app"
 cp -r _______.app "${steam_game_dir}/_______.app"
 
 # Cleanup
 echo "-> ${cyan}Cleanup files...${color_reset}"
 # make clean
-rm -rf OneShot_new.app
+# rm -rf synglechance_new.app
 rm -rf journal/mac/__pycache__
 rm -rf build
 rm -rf dist

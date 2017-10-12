@@ -35,3 +35,5 @@ xScripts.rxdata
 .qmake.stash
 CMakeCache.txt
 CMakeFiles/
+
+synglechance\.app/
