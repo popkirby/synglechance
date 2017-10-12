@@ -4,7 +4,7 @@ set -e
 # User-configurable variables
 mac_version="0.3.4"
 steam_game_dir=~/Library/Application\ Support/Steam/SteamApps/common/OneShot
-make_threads=4
+make_threads=8
 
 # Colors
 white="\033[0;37m"      # White - Regular
