@@ -18,7 +18,7 @@ echo "${white}Compiling ${bold}SyngleChance v${mac_version} ${white}engine for m
 
 # Generate makefile and build main + journal
 echo "-> ${cyan}Generate makefile...${color_reset}"
-PKG_CONFIG_PATH=$HOME/Documents/synglechance/thirdparty/libs/lib/pkgconfig:/usr/local/opt/openal-soft/lib/pkgconfig:$PKG_CONFIG_PATH $QMAKE
+PKG_CONFIG_PATH=$PWD/thirdparty/libs/lib/pkgconfig:/usr/local/opt/openal-soft/lib/pkgconfig:$PKG_CONFIG_PATH $QMAKE
 echo "-> ${cyan}Compile engine...${color_reset}"
 make -j${make_threads}
 echo "-> ${cyan}Compile journal...${color_reset}"
