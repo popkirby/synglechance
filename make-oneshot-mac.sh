@@ -5,6 +5,7 @@ set -e
 mac_version="0.4.1"
 steam_game_dir=~/Library/Application\ Support/Steam/SteamApps/common/OneShot
 make_threads=8
+QMAKE=/usr/local/Cellar/qt/5.10.1/bin/qmake
 
 # Colors
 white="\033[0;37m"      # White - Regular
@@ -17,7 +18,7 @@ echo "${white}Compiling ${bold}SyngleChance v${mac_version} ${white}engine for m
 
 # Generate makefile and build main + journal
 echo "-> ${cyan}Generate makefile...${color_reset}"
-qmake MRIVERSION=2.3
+PKG_CONFIG_PATH=$HOME/Documents/synglechance/thirdparty/libs/lib/pkgconfig:/usr/local/opt/openal-soft/lib/pkgconfig:$PKG_CONFIG_PATH $QMAKE
 echo "-> ${cyan}Compile engine...${color_reset}"
 make -j${make_threads}
 echo "-> ${cyan}Compile journal...${color_reset}"

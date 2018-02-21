@@ -18,6 +18,8 @@ __pycache__
 /dist
 /debug
 /release
+/thirdparty/*
+!/thirdparty/.gitkeep
 
 object_script.*
 rpgscript.bat

@@ -1,18 +1,20 @@
---- a/common.mk
-+++ b/common.mk
-@@ -95,6 +95,7 @@ COMMONOBJS    = array.$(OBJEXT) \
+diff --git ruby-2.3.6 2/common.mk ruby-2.3.6/common.mk
+index da4608b..29e35f5 100644
+--- ruby-2.3.6 2/common.mk	
++++ ruby-2.3.6/common.mk
+@@ -111,6 +111,7 @@ COMMONOBJS    = array.$(OBJEXT) \
  		vm_trace.$(OBJEXT) \
  		thread.$(OBJEXT) \
  		cont.$(OBJEXT) \
 +		ext/zlib/zlib.$(OBJEXT) \
+ 		$(DTRACE_OBJ) \
  		$(BUILTIN_ENCOBJS) \
  		$(BUILTIN_TRANSOBJS) \
- 		$(MISSING)
-diff --git a/ruby-2.1.5.orig/configure b/ruby-2.1.5/configure
-index d0f1f68..45ab642 100755
---- a/configure
-+++ b/configure
-@@ -2838,6 +2838,8 @@ ac_configure="$SHELL $ac_aux_dir/configure"  # Please don't use this var.
+diff --git ruby-2.3.6 2/configure ruby-2.3.6/configure
+index c38814a..0c9b440 100755
+--- ruby-2.3.6 2/configure	
++++ ruby-2.3.6/configure
+@@ -2878,6 +2878,8 @@ ac_configure="$SHELL $ac_aux_dir/configure"  # Please don't use this var.
  
  
  
@@ -21,9 +23,11 @@ index d0f1f68..45ab642 100755
  { # environment section
  
  
---- a/configure.in
-+++ b/configure.in
-@@ -31,6 +31,8 @@ rm() {
+diff --git ruby-2.3.6 2/configure.in ruby-2.3.6/configure.in
+index 2cd0f27..3214e50 100644
+--- ruby-2.3.6 2/configure.in	
++++ ruby-2.3.6/configure.in
+@@ -35,6 +35,8 @@ rm() {
  }
  ])])])
  
@@ -32,8 +36,10 @@ index d0f1f68..45ab642 100755
  { # environment section
  
  AC_ARG_WITH(baseruby,
---- a/inits.c
-+++ b/inits.c
+diff --git ruby-2.3.6 2/inits.c ruby-2.3.6/inits.c
+index 6da80bf..fad2bcd 100644
+--- ruby-2.3.6 2/inits.c	
++++ ruby-2.3.6/inits.c
 @@ -61,5 +61,6 @@ rb_call_inits(void)
      CALL(Complex);
      CALL(version);
