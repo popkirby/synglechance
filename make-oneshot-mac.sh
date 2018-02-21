@@ -16,6 +16,10 @@ color_reset="\033[0m"   # Reset Colors
 
 echo "${white}Compiling ${bold}SyngleChance v${mac_version} ${white}engine for macOS...${color_reset}\n"
 
+# Compile thirdparty library
+echo "-> ${cyan}Compile thirdparty libraries...${color_reset}"
+make -f ./make-thirdparty.mak
+
 # Generate makefile and build main + journal
 echo "-> ${cyan}Generate makefile...${color_reset}"
 PKG_CONFIG_PATH=$PWD/thirdparty/libs/lib/pkgconfig:/usr/local/opt/openal-soft/lib/pkgconfig:$PKG_CONFIG_PATH $QMAKE
