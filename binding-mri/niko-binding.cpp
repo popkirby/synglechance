@@ -86,7 +86,7 @@ RB_METHOD(nikoStart)
   x += NIKO_X;
   y += NIKO_Y;
   char exec_str[PATH_MAX];
-  sprintf(exec_str, "\"%s/Contents/MacOS/_______\" %d %d", shState->oneshot().journal().c_str(), x, y);
+  sprintf(exec_str, "\"%s/Contents/MacOS/_______\" %d %d &", shState->oneshot().journal().c_str(), x, y);
   system(exec_str);
 #else
 #error "not yet implemented"
