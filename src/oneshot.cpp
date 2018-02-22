@@ -582,8 +582,13 @@ Oneshot::Oneshot(RGSSThreadData &threadData) :
 
 	//Get documents path
 	char *path = xdg_user_dir_lookup_with_fallback("DOCUMENTS", getenv("HOME"));
-	p->docsPath = path;
-	p->gamePath = path;
+#ifdef OS_OSX
+	p->docsPath = std::string(path) + std::string("/Documents");
+	p->gamePath = std::string(path) + std::string("/Documents");
+#else
+	p->docsPath = std::string(path);
+	p->gamePath = std::string(path);
+#endif
 	#ifdef OS_OSX
 		p->journal = "_______.app";
 	#elif defined OS_LINUX
