@@ -13,6 +13,9 @@ Makefile*
 /oneshot
 /steamshim_parent/steamshim
 
+/journal/mac/build
+/journal/mac/dist
+
 __pycache__
 /build*
 /dist
