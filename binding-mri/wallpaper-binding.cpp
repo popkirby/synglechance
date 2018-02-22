@@ -18,6 +18,10 @@ static bool setStyle = false;
 static bool setTile = false;
 #endif
 
+#ifdef __APPLE__
+#include "osx-wallpaper-binding.h"
+#endif
+
 RB_METHOD(wallpaperSet)
 {
 	RB_UNUSED_PARAM;
@@ -92,7 +96,8 @@ RB_METHOD(wallpaperSet)
 end:
 	if (hKey)
 		RegCloseKey(hKey);
-#else
+#elif defined(__APPLE__)
+  OSX_setWallpaper(imgname.c_str());
 #endif
 	return Qnil;
 }
@@ -125,7 +130,8 @@ RB_METHOD(wallpaperReset)
 		if (hKey)
 			RegCloseKey(hKey);
 	}
-#else
+#elif defined(__APPLE__)
+  OSX_resetWallpaper();
 #endif
 	return Qnil;
 }

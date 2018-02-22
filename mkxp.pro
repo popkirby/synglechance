@@ -40,6 +40,7 @@ unix {
 	PKGCONFIG += physfs
 	LIBS += -ldl
 	macx: {
+    CONFIG += objective_c
 		INCLUDEPATH += $$QMAKE_MAC_SDK_PATH/System/Library/Frameworks/OpenAL.framework/Versions/A/Headers /usr/local/include
 		LIBS += -framework OpenAL
 		QMAKE_LFLAGS += -L/usr/local/opt/ruby@2.3/lib -L/usr/local/opt/openal-soft/lib
@@ -289,6 +290,13 @@ BINDING_MRI {
 	binding-mri/steam-binding.cpp \
 	binding-mri/wallpaper-binding.cpp \
 	binding-mri/niko-binding.cpp
+
+  unix {
+    macx: {
+      HEADERS += binding-mri/osx-wallpaper-binding.h
+      SOURCES += binding-mri/osx-wallpaper-binding.mm
+    }
+  }
 }
 
 OTHER_FILES += $$EMBED
