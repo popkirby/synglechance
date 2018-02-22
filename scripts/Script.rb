@@ -376,6 +376,9 @@ module Script
     Dir.mkdir(Oneshot::GAME_PATH) unless File.exists?(Oneshot::GAME_PATH)
     Dir.mkdir(Oneshot::GAME_PATH + "/Oneshot") unless File.exists?(Oneshot::GAME_PATH + "/Oneshot")
   begin  #if File.exists?(Oneshot::JOURNAL)
+    if File.directory?(Oneshot::JOURNAL)
+      FileUtils.cp_r(Oneshot::JOURNAL, Oneshot::GAME_PATH + "/Oneshot/")
+    else
       File.open(Oneshot::JOURNAL, "rb") do |input|
         File.open(Oneshot::GAME_PATH + "/Oneshot/" + Oneshot::JOURNAL,"wb") do |output|
           while buff = input.read(4096)
@@ -383,7 +386,8 @@ module Script
           end
         end
       end
-	rescue Errno::EACCES => e
+    end
+	rescue Errno::EACCES, Errno::EEXIST => e
 	  #this probably means the clover.exe already exists and is running, so no need to create it again
 	end
 	if File.exists?("README.txt")

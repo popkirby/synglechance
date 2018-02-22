@@ -37,7 +37,7 @@ static volatile char message_buffer[BUFFER_SIZE];
 static volatile bool active = false;
 static volatile int message_len = 0;
 
-#ifdef LINUX
+#if defined(LINUX) || defined(OS_OSX)
 	#define PIPE_PATH "/tmp/oneshot-pipe"
 	static volatile int out_pipe = -1;
 	void cleanup_pipe()
@@ -160,7 +160,7 @@ void journalBindingInit()
 	mutex = SDL_CreateMutex();
 	memset((char*)lang_buffer, 0, BUFFER_SIZE);
 	lang_buffer[0] = '_';
-#if defined __linux
+#if defined __linux || defined(OS_OSX)
 	mkfifo(PIPE_PATH, 0666);
 	atexit(cleanup_pipe);
 #endif
