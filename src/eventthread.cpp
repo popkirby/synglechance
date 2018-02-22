@@ -120,9 +120,7 @@ void EventThread::process(RGSSThreadData &rtData)
 	initALCFunctions(rtData.alcDev);
 
 	// XXX this function breaks input focus on OSX
-#ifndef __MACOSX__
 	SDL_SetEventFilter(eventFilter, &rtData);
-#endif
 
 	fullscreen = rtData.config.fullscreen;
 
