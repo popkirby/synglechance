@@ -1,3 +1,4 @@
+#include "oneshot.h"
 #include "binding-util.h"
 #include "binding-types.h"
 #include "sharedstate.h"
@@ -7,10 +8,11 @@
 #if defined _WIN32
 #include <shlwapi.h>
 #elif defined __APPLE__ || __linux__
-	#define LINUX
 	#ifdef __APPLE__
 		#define OS_OSX
+    #include <mach-o/dyld.h>
 	#else
+    #define LINUX
 		#define OS_LINUX
 	#endif
 #endif
@@ -78,6 +80,14 @@ RB_METHOD(nikoStart)
 			exit(1);
 		}
 	}
+#elif defined(__APPLE__)
+  int x, y;
+  SDL_GetWindowPosition(shState->rtData().window, &x, &y);
+  x += NIKO_X;
+  y += NIKO_Y;
+  char exec_str[PATH_MAX];
+  sprintf(exec_str, "\"%s/Contents/MacOS/_______\" %d %d", shState->oneshot().journal().c_str(), x, y);
+  system(exec_str);
 #else
 #error "not yet implemented"
 #endif
