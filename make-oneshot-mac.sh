@@ -25,8 +25,8 @@ echo "-> ${cyan}Generate makefile...${color_reset}"
 PKG_CONFIG_PATH=$PWD/thirdparty/libs/lib/pkgconfig:/usr/local/opt/openal-soft/lib/pkgconfig:$PKG_CONFIG_PATH $QMAKE
 echo "-> ${cyan}Compile engine...${color_reset}"
 make -j${make_threads}
-echo "-> ${cyan}Compile journal...${color_reset}"
-pyinstaller journal/mac/journal.spec --onefile --windowed
+#echo "-> ${cyan}Compile journal...${color_reset}"
+#pyinstaller journal/mac/journal.spec --onefile --windowed
 
 # Create app bundles
 echo "-> ${cyan}Create app bundles...${color_reset}"
@@ -53,14 +53,14 @@ cp assets/icon.icns ./OneShot.app/Contents/Resources/icon.icns
 cp steam_appid.txt ./OneShot.app/Contents/Resources/steam_appid.txt
 cp patches/mac/oneshot.sh ./OneShot.app/Contents/MacOS/oneshot.sh
 mv OneShot.app/Contents/MacOS/OneShot OneShot.app/Contents/Resources/OneShot
-cp -r dist/_______.app _______.app
+#cp -r dist/_______.app _______.app
 
 # Set version number
 echo "-> ${cyan}Set version number...${color_reset}"
 rm -f OneShot.app/Contents/Info.plist
 rm -f _______.app/Contents/Info.plist
 m4 patches/mac/Info.plist.in -DONESHOTMACVERSION=$mac_version > OneShot.app/Contents/Info.plist
-m4 patches/mac/JournalInfo.plist.in -DONESHOTMACVERSION=$mac_version > _______.app/Contents/Info.plist
+#m4 patches/mac/JournalInfo.plist.in -DONESHOTMACVERSION=$mac_version > _______.app/Contents/Info.plist
 
 # Compile scripts
 echo "-> ${cyan}Compile xScripts.rxdata...${color_reset}"
@@ -70,9 +70,9 @@ ruby rpgscript.rb ./scripts "${steam_game_dir}"
 echo "-> ${cyan}Install to Steam directory...${color_reset}"
 cp "${steam_game_dir}/Data/xScripts.rxdata" .
 rm -rf "${steam_game_dir}/OneShot.app"
-rm -rf "${steam_game_dir}/_______.app"
+#rm -rf "${steam_game_dir}/_______.app"
 cp -r OneShot.app "${steam_game_dir}/OneShot.app"
-cp -r _______.app "${steam_game_dir}/_______.app"
+#cp -r _______.app "${steam_game_dir}/_______.app"
 
 # Cleanup
 echo "-> ${cyan}Cleanup files...${color_reset}"
